@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Server</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Écran d'authentification ──────────────────────────────────────── -->
+
+<div id="auth-screen">
+  <div class="auth-card">
+    <h1>⬇ Download Server</h1>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Connexion</button>
+      <button class="auth-tab" data-tab="register">Inscription</button>
+    </div>
+
+
+<!-- Login -->
+<div id="auth-login">
+  <div class="form-group">
+    <label>Nom d'utilisateur</label>
+    <input type="text" id="login-user" placeholder="admin" autocomplete="username">
+  </div>
+  <div class="form-group">
+    <label>Mot de passe</label>
+    <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+  </div>
+  <button class="btn btn-primary" id="btn-login" style="width:100%">Se connecter</button>
+</div>
+
+<!-- Register -->
+<div id="auth-register" style="display:none">
+  <div class="form-group">
+    <label>Nom d'utilisateur</label>
+    <input type="text" id="reg-user" placeholder="alice" autocomplete="username">
+  </div>
+  <div class="form-group">
+    <label>Mot de passe</label>
+    <input type="password" id="reg-pass" placeholder="min. 6 caractères" autocomplete="new-password">
+  </div>
+  <button class="btn btn-primary" id="btn-register" style="width:100%">Créer un compte</button>
+</div>
+
+
+  </div>
+</div>
+
+<!-- ── Application principale ────────────────────────────────────────── -->
+
+<div id="app">
+
+  <!-- Sidebar -->
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">⬇ <span>DLServer</span></div>
+
+
+<div class="nav-item active" data-page="downloads">
+  <span class="nav-icon">📥</span> Téléchargements
+</div>
+<div class="nav-item" data-page="files">
+  <span class="nav-icon">📁</span> Fichiers
+</div>
+<div class="nav-item" id="nav-admin" style="display:none" data-page="admin">
+  <span class="nav-icon">⚙</span> Admin
+</div>
+
+<div class="sidebar-bottom">
+  <div class="user-info">
+    <strong id="username-display"></strong>
+    <span id="role-display"></span>
+  </div>
+  <div class="nav-item" id="btn-logout">
+    <span class="nav-icon">↩</span> Déconnexion
+  </div>
+  <div style="padding:.6rem .8rem;font-size:.75rem;color:var(--muted)">
+    <span class="ws-dot" id="ws-dot"></span>WebSocket
+  </div>
+</div>
+
+
+  </nav>
+
+  <!-- Contenu principal -->
+
+  <main class="main">
+
+
+<!-- Page : Téléchargements -->
+<div class="page active" id="page-downloads">
+  <div class="page-title">Téléchargements</div>
+
+  <!-- Formulaire d'ajout -->
+  <div class="download-form">
+    <div class="form-row">
+      <div class="form-group" style="margin:0">
+        <label>URL</label>
+        <input type="url" id="dl-url" placeholder="https://www.youtube.com/watch?v=… ou lien anime">
+      </div>
+      <div class="form-group" style="margin:0">
+        <label>Téléchargeur</label>
+        <select id="dl-downloader">
+          <option value="ytdlp">yt-dlp</option>
+          <option value="anicli">ani-cli</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin:0">
+        <label>Qualité</label>
+        <select id="dl-quality">
+          <option value="best">Meilleure</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+          <option value="audio">Audio seul</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btn-add-download" style="height:38px">
+        ＋ Ajouter
+      </button>
+    </div>
+  </div>
+
+  <!-- Liste des jobs -->
+  <div class="section-header">
+    <h2>File d'attente</h2>
+    <span class="badge" id="job-count">0</span>
+  </div>
+  <div class="job-list" id="job-list">
+    <div class="empty-state">Aucun téléchargement</div>
+  </div>
+</div>
+
+<!-- Page : Fichiers -->
+<div class="page" id="page-files">
+  <div class="page-title">Fichiers téléchargés</div>
+  <div class="file-grid" id="file-grid"></div>
+</div>
+
+<!-- Page : Admin -->
+<div class="page" id="page-admin">
+  <div class="page-title">Administration</div>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Utilisateur</th>
+        <th>Rôle</th>
+        <th>Créé le</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="user-tbody"></tbody>
+  </table>
+</div>
+
+
+  </main>
+</div>
+
+<div id="toast-container"></div>
+<script src="app.js"></script>
+</body>
+</html>
